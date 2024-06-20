@@ -241,7 +241,7 @@ SUB CLS256(byval colour as ubyte)
         pop    bc
 
     end asm 
-end sub 
+end Sub
 
 
 ' - PlotL2 ------------------------------------------------
@@ -256,26 +256,26 @@ end sub
 '   y (UByte): Y coordinate from top (0-191)
 '   c (Ubyte): Pixel colour index (0-255)
 ' ---------------------------------------------------------
-SUB  fastcall PlotL2(byVal x as ubyte, byval y as ubyte, byval c as ubyte)
-ASM 
+Sub fastcall PlotL2(ByVal x As ubyte, ByVal y As ubyte, ByVal c As ubyte)
+ASM
     ;BREAK
-    ld   bc,LAYER2_ACCESS_PORT
+    ld   bc, LAYER2_ACCESS_PORT
     pop  hl      ; save return address 
-    ld   e,a     ; put a into e
+    ld   e, a     ; put a into e
     pop  af      ; pop stack into a 
-    ld   d,a     ; put into d
-    and  192     ; yy00 0000
+    ld   d, a     ; put into d
+    And  192     ; yy00 0000
 
-    or   3       ; yy00 0011
-    out  (c),a   ; select 8k-bank    
-    ld   a,d     ; yyyy yyyy
-    and  63      ; 00yy yyyy
-    ld   d,a
+    Or   3       ; yy00 0011
+    out(c),a   ; Select 8k-bank    
+    ld   a, d     ; yyyy yyyy
+    And  63      ; 00yy yyyy
+    ld   d, a
     pop  af      ; get colour/map value 
-    ld  (de),a   ; set pixel value
+    ld(de),a   ; Set pixel value
 
-    ld   a,2     ; 0000 0010
-    out  (c),a   ; select ROM?
+    ld   a, 2     ; 0000 0010
+    out(c),a   ; Select ROM?
     push hl      ; restore return address
     
 ; 6-7    Video RAM bank select
@@ -283,8 +283,8 @@ ASM
 ; 1        Layer 2 visible
 ; 0        Enable Layer 2 write paging
     
-  END ASM 
-end sub
+  End ASM 
+End Sub
 
 
 ' - ScrollLayer -------------------------------------------
@@ -296,7 +296,7 @@ end sub
 '   x (UByte): Horizontal offset
 '   y (UByte): Vertical offset
 ' ---------------------------------------------------------
-SUB FASTCALL ScrollLayer(byval x as ubyte,byval y as ubyte)
+Sub FASTCALL ScrollLayer(byval x as ubyte,byval y as ubyte)
     asm 
         PROC 
         pop     hl                     ; store ret address 
@@ -344,16 +344,16 @@ sploop:
         djnz sploop
         ENDP
     end asm 
-END SUB 
+END Sub
 
 
-' - InitSprites -------------------------------------------
+' - RemoveSprite ------------------------------------------
 ' Deletes (makes disappear) a sprite from the screen
 ' Parameters: 
 '   spriteId (UByte): Identifier of the sprite to hide
 '   visible (UByte): 0 = Hidden, 1 = Visible
 ' ---------------------------------------------------------
-SUB RemoveSprite(spriteid AS UBYTE, visible as ubyte)
+Sub RemoveSprite(spriteid AS UBYTE, visible as ubyte)
     ASM 
         push bc 
         ld a,(IX+5)                    ; get ID spriteid
@@ -373,10 +373,10 @@ SUB RemoveSprite(spriteid AS UBYTE, visible as ubyte)
         out (c), a
         pop bc 
     END ASM 
-END SUB           
+END Sub
 
 
-' - InitSprites -------------------------------------------
+' - UpdateSprite ------------------------------------------
 ' Updates the position and properties of the sprite on the screen.
 ' The sprites are printed from the hardware top-left edge of the Next.
 ' To place a sprite at position 0,0 in Layer 2, you must point to 32,32.
@@ -385,17 +385,17 @@ END SUB
 '   x (UByte): Vertical position of the sprite (0-255) - (32-223)
 '   spriteId (UByte): Identifier of the sprite to hide
 '   pattern (UByte): Number of element to use for the sprite within the sprite set
-'   mflip (UByte): Attribute 2 of the sprite. Bits: PPPXYRH
+'   mflip (UByte): Attribute 2 of the sprite (0=default). Bits: PPPXYRH
 '                   PPPP = Palette offset for the sprite
 '                   X = Horizontal mirror, 0 = Off, 1 = On
 '                   Y = Vertical mirror, 0 = Off, 1 = On
 '                   R = Rotation, 0 = None, 1 = 90 degrees clockwise
 '                   H = Ignored
-'   anchor (UByte): Attribute 4 of the sprite. Bits: ---ZXZY-
+'   anchor (UByte): Attribute 4 of the sprite (0=default). Bits: ---ZXZY-
 '                   ZX: Horizontal zoom factor (0-3)
 '                   ZY: Vertical zoom factor (0-3)
 ' ---------------------------------------------------------
-sub UpdateSprite(ByVal x AS uinteger,ByVal y AS UBYTE,ByVal spriteid AS UBYTE,ByVal pattern AS UBYTE,ByVal mflip as ubyte,ByVal anchor as ubyte)
+Sub UpdateSprite(ByVal x AS uinteger,ByVal y AS UBYTE,ByVal spriteid AS UBYTE,ByVal pattern AS UBYTE,ByVal mflip as ubyte,ByVal anchor as ubyte)
     '                  5                    7              9                     11                   13                   15                        17            
     '  http://devnext.referata.com/wiki/Sprite_Attribute_Upload
     '  Uploads attributes of the sprite slot selected by Sprite Status/Slot Select ($303B). 
@@ -625,8 +625,9 @@ SUB LoadSD(byval filen as String,ByVal address as uinteger,ByVal length as uinte
     filen = filen + chr(0)
     tlen=len(filen)+1
     dim cco as ubyte=0
-    asm 
-        ld hl,.LABEL._filename
+
+    asm
+    ld hl,.LABEL._filename
         ld de,.LABEL._filename+1
         ld bc,64
         ld (hl),0

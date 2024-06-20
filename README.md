@@ -45,3 +45,8 @@ This library is included within the Boriel Basic compiler: https://github.com/bo
     - LoadBMP
 
 
+Version info
+- 0.2
+    - Fixed some incorrect comments in the code. No functionality has been changed.
+- 0.1
+    - Initial version
