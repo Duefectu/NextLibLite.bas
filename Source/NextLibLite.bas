@@ -1,10 +1,10 @@
 ' ---------------------------------------------------------
-' NextLibLite v0.1
+' NextLibLite v0.2
 ' This is a subset of nextBuild/NextLib library
 ' ZX Spectrum Next library
 '
 ' This file is released under the MIT License
-' Copyleft (k) 2023
+' Copyleft (k) 2024
 ' Adapted by Juan Segura "Duefectu" from NextBuild/NextLib
 ' NextLib by David Saphier "emook"
 ' Help and thanks Boriel, Flash, Baggers, Britlion, Shiru, 
@@ -28,7 +28,7 @@
 ' - PRAGMAS -----------------------------------------------
 ' Avoid case sensitive troubles
 #PRAGMA push(case_insensitive)
-#PRAGMA case_insensitive = TRUE
+#PRAGMA case_insensitive = True
 
 
 ' - Defines -----------------------------------------------
